@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TriggerWords implements MessageCreateListener {
     // put paths to files here
-    private String wordsFilePath = "C:/Users/emicb/Desktop/banbot/src/main/java/com/github/emicb/textfiles/words.txt";
+    private String wordsFilePath = "";
 
     // other things
     private File words = new File(wordsFilePath);
