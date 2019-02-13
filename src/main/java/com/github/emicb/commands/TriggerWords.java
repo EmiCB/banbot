@@ -1,16 +1,22 @@
 package com.github.emicb.commands;
 
 import com.github.emicb.util.UserWarnings;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class TriggerWords implements MessageCreateListener {
     // put paths to files here
-    private String wordsFilePath = "";
+    private String wordsFilePath = "C:/Users/emicb/Desktop/banbot/src/main/java/com/github/emicb/textfiles/words.txt";
 
     // other things
     private File words = new File(wordsFilePath);
@@ -32,7 +38,7 @@ public class TriggerWords implements MessageCreateListener {
         try {
             scan = new Scanner(words);
         } catch(Exception exception) {
-            System.err.print("File not found!");
+            System.err.print("Word file not found!");
         }
 
         while(scan.hasNext()) {
@@ -68,7 +74,7 @@ public class TriggerWords implements MessageCreateListener {
                             // if they have fewer than the max amount of warnings...
                             if(userPair.getWarnings() < maxWarnings){
                                 // deletes message
-                                //event.deleteMessage();
+                                event.deleteMessage();
                                 // adds a warning to the user's personal count
                                 userPair.setWarnings(userPair.getWarnings() + 1);
                                 // sends a message to the channel
@@ -76,8 +82,10 @@ public class TriggerWords implements MessageCreateListener {
                             }
                             // if they have the max amount of warnings...
                             if(userPair.getWarnings() == maxWarnings) {
+                                // deletes message
+                                event.deleteMessage();
                                 // kicks the user after issuing maximum warnings
-                                //event.getServer().get().kickUser(author);
+                                event.getServer().get().kickUser(author);
                                 // notifies that the user was kicked
                                 event.getChannel().sendMessage(author.getMentionTag() + " has been kicked from the server due to language.");
                             }
@@ -87,6 +95,10 @@ public class TriggerWords implements MessageCreateListener {
                         newUserPair.setUser(author);
                         newUserPair.setWarnings(1);
                         users.add(newUserPair);
+
+                        // deletes message
+                        event.deleteMessage();
+
                         event.getChannel().sendMessage(author.getMentionTag() + " has " + newUserPair.getWarnings() + " warnings (max of " + maxWarnings + ").");
                     }
                     else {

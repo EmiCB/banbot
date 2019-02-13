@@ -7,7 +7,7 @@ import org.javacord.api.DiscordApiBuilder;
 public class Main {
     public static void main(String args[]) {
         // put discord bot token here
-        String token = "NTA2NDkzMTk0NzkyNDY4NTA4.Dri_mw.u0qwn17avImB-HMA3XG8tS06nEo";
+        String token = "";
 
         // check token
         if(token.length() < 1) {
@@ -15,7 +15,7 @@ public class Main {
             return;
         }
 
-        // Logs in bot
+        // Logs bot into discord
         org.javacord.api.DiscordApi api = new DiscordApiBuilder().setToken(token).login().join();
 
         // Add commands
